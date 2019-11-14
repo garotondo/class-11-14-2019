@@ -1,0 +1,49 @@
+---
+title: "class notes 11-14-2019"
+author: "Grace Rotondo"
+date: "11/14/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
+library(googlesheets4)
+library(ggplot2)
+library(rstanarm)
+library(broom)
+library(tidyverse)
+```
+
+```{r}
+sheets_deauth()
+elections <- read_sheet("1QA_Xv9tAbKhwFdQpnVa2hTjhEdg5zAl4WY5EVanWSo0")
+```
+
+```{r}
+elections %>% 
+  group_by(dvote, dem_adv) %>% 
+  ggplot(aes(dem_adv, dvote)) +
+  geom_jitter(height = 0.1, width = 0.1, alpha = 0.05)+
+  geom_smooth(method = "lm", se = FALSE)
+```
+What does the graph mean?
+
+What does the line mean?
+
+What is it straight?
+
+```{r}
+glm_1 <- glm(data = elections, formula = dvote ~ female, family = "binomial")
+
+print(glm_1)
+summary(glm_1)
+```
+
+Graph of Female and Dvote
+```{r}
+elections %>% 
+  ggplot(aes(female, dvote)) +
+  geom_jitter
+```
+
